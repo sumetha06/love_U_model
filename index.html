@@ -1,158 +1,210 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>บอกรักแฟน</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-      font-family: 'Prompt', sans-serif;
-      overflow: hidden;
-      text-align: center;
-      position: relative;
-    }
-    h1 {
-      color: #fff;
-      font-size: 2rem;
-      margin-bottom: 2rem;
-      padding: 0 10px;
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
-      z-index: 2;
-    }
-    .btn {
-      padding: 12px 28px;
-      font-size: 1.2rem;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      transition: all 0.3s;
-      position: absolute;
-      z-index: 2;
-    }
-    #yesBtn {
-      background: #4CAF50;
-      color: white;
-      left: 35%;
-      top: 55%;
-    }
-    #noBtn {
-      background: #f44336;
-      color: white;
-      left: 55%;
-      top: 55%;
-    }
-    #message {
-      display: none;
-      font-size: 2rem;
-      color: #fff;
-      margin-top: 20px;
-      animation: pop 0.6s ease forwards;
-      z-index: 2;
-    }
-    @keyframes pop {
-      0% { transform: scale(0.5); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>บอกรักแฟน</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    font-family: 'Prompt', sans-serif;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+  }
 
-    /* หัวใจลอย */
-    .heart {
-      position: absolute;
-      font-size: 1.5rem;
-      color: #ff3366;
-      animation: floatUp 6s linear infinite;
-      z-index: 1;
-      pointer-events: none;
-    }
-    @keyframes floatUp {
-      0% { transform: translateY(100vh) scale(1); opacity: 1; }
-      100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
-    }
+  h1 {
+    color: #fff;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+    z-index: 2;
+  }
 
-    /* Responsive */
-    @media (max-width: 600px) {
-      h1 { font-size: 1.5rem; }
-      .btn { padding: 10px 20px; font-size: 1rem; }
-      #message { font-size: 1.5rem; }
-      .heart { font-size: 1rem; }
-    }
-    @media (min-width: 601px) and (max-width: 1024px) {
-      h1 { font-size: 1.8rem; }
-      .btn { padding: 12px 26px; font-size: 1.1rem; }
-      #message { font-size: 1.8rem; }
-      .heart { font-size: 1.3rem; }
-    }
-    @media (min-width: 1025px) {
-      h1 { font-size: 2.5rem; }
-      .btn { padding: 14px 32px; font-size: 1.3rem; }
-      #message { font-size: 2rem; }
-      .heart { font-size: 1.5rem; }
-    }
-  </style>
+  .btn {
+    padding: 12px 28px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: absolute;
+    z-index: 2;
+  }
+
+  #yesBtn { background: #4CAF50; color: white; left: 35%; top: 55%; }
+  #noBtn { background: #f44336; color: white; left: 55%; top: 55%; }
+
+  #message {
+    position: relative;   /* ทำให้ข้อความอยู่เหนือรูป */
+    z-index: 4;           /* สูงสุด เพื่อแน่ใจว่าข้อความทับทุกอย่าง */
+}
+
+  @keyframes pop {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  
+  .image-front {
+    max-width: 120px;
+    margin: 5px;
+    border-radius: 10px;
+    z-index: 2;
+  }
+
+  
+  #love-page {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .love-image {
+    position: absolute;
+    width: 50%;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.3;      
+    z-index: 1;         
+}
+
+
+  #love-content {
+    position: relative;   /* หรือ absolute ก็ได้ ถ้าอยากให้ตรงกลางจอ */
+    z-index: 3;           /* สูงกว่ารูป (z-index ของ .love-image = 1) */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+ 
+  .heart {
+    position: absolute;
+    font-size: 1.5rem;
+    color: #ff3366;
+    animation: floatUp 6s linear infinite;
+    z-index: 1;
+    pointer-events: none;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(100vh) scale(1); opacity: 1; }
+    100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+  }
+
+
+  @media (max-width: 600px) {
+    h1 { font-size: 1.5rem; }
+    .btn { padding: 10px 20px; font-size: 1rem; }
+    #message { font-size: 1.5rem; }
+    .image-front { max-width: 80px; }
+    .love-image { width: 70%; opacity: 0.3; }
+    .heart { font-size: 1rem; }
+  }
+  @media (min-width: 601px) and (max-width: 1024px) {
+    h1 { font-size: 1.8rem; }
+    .btn { padding: 12px 26px; font-size: 1.1rem; }
+    #message { font-size: 1.8rem; }
+    .image-front { max-width: 100px; }
+    .love-image { width: 50%; opacity: 0.35; }
+    .heart { font-size: 1.3rem; }
+  }
+  @media (min-width: 1025px) {
+    h1 { font-size: 2.5rem; }
+    .btn { padding: 14px 32px; font-size: 1.3rem; }
+    #message { font-size: 2rem; }
+    .image-front { max-width: 120px; }
+    .love-image { width: 50%; opacity: 0.4; }
+    .heart { font-size: 1.5rem; }
+  }
+
+</style>
 </head>
 <body>
-  <h1>เค้าขอโทษ ดีกันได้ไหม? 🥺</h1>
-  <button id="yesBtn" class="btn">ดี 💚</button>
-  <button id="noBtn" class="btn">ไม่ ❌</button>
-  <div id="message">เย่ยยยย รักที่สุดเลยยย ❤️🥰</div>
 
-  <script>
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
-    const message = document.getElementById("message");
+<!-- หน้าแรก -->
+<h1 id="question">เค้าขอโทษ ดีกันได้ไหม? 🥺</h1>
 
-    yesBtn.addEventListener("click", () => {
-      message.style.display = "block";
-      yesBtn.style.display = "none";
-      noBtn.style.display = "none";
-      createHearts(30); // สร้างหัวใจลอยตอนกด "ดี"
-    });
+<div id="front-images">
+  <img src="d:\Users\ongsa\Downloads\bf9f36cc-1062-4607-b81e-dc59b6330de9.jpg" class="image-front" alt="รูปแรก">
+  <img src="d:\Users\ongsa\Downloads\d406e4f6-69e5-4404-bafc-65a61f9f0b3a.jpg" class="image-front" alt="รูปสอง">
+</div>
 
-    function moveNoBtn() {
-      const x = Math.random() * (window.innerWidth - noBtn.clientWidth - 20);
-      const y = Math.random() * (window.innerHeight - noBtn.clientHeight - 20);
-      noBtn.style.left = `${x}px`;
-      noBtn.style.top = `${y}px`;
-    }
+<button id="yesBtn" class="btn">ดี 💚</button>
+<button id="noBtn" class="btn">ไม่ ❌</button>
 
-    noBtn.addEventListener("mouseover", moveNoBtn);
-    noBtn.addEventListener("click", moveNoBtn);
-    noBtn.addEventListener("touchstart", moveNoBtn);
+<!-- หน้าหลังจากกด "ดี" -->
+<div id="love-page">
+  <img src="d:\Users\ongsa\Downloads\df84500f-788d-48fc-8f99-b79c3e5d5c07.jpg" class="love-image" alt="รูปรัก1">
+  
+  <div id="love-content">
+    <div id="message">เย่ยยยย รักที่สุดเลยยย ❤️🥰</div>
+  </div>
+</div>
 
-    // ฟังก์ชันสร้างหัวใจลอย
-    function createHearts(count) {
-      for (let i = 0; i < count; i++) {
-        const heart = document.createElement("div");
-        heart.classList.add("heart");
-        heart.innerHTML = "💖";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.fontSize = (Math.random() * 24 + 16) + "px";
-        heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
-        document.body.appendChild(heart);
+<script>
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const message = document.getElementById("message");
+const lovePage = document.getElementById("love-page");
+const frontImages = document.getElementById("front-images");
 
-        setTimeout(() => {
-          heart.remove();
-        }, 6000);
-      }
-    }
+// กดดี
+yesBtn.addEventListener("click", () => {
+  yesBtn.style.display = "none";
+  noBtn.style.display = "none";
+  frontImages.style.display = "none";
 
-    // สร้างหัวใจลอยเบา ๆ รอบ ๆ ทุก 0.5 วินาที
-    setInterval(() => {
-      const heart = document.createElement("div");
-      heart.classList.add("heart");
-      heart.innerHTML = "💖";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.fontSize = (Math.random() * 20 + 10) + "px";
-      heart.style.animationDuration = (Math.random() * 4 + 3) + "s";
-      document.body.appendChild(heart);
-      setTimeout(() => { heart.remove(); }, 7000);
-    }, 500);
-  </script>
+  lovePage.style.display = "block"; // แสดงหน้าหลัง
+  createHearts(30);
+});
+
+// ปุ่ม "ไม่" หนี
+function moveNoBtn() {
+  const x = Math.random() * (window.innerWidth - noBtn.clientWidth - 20);
+  const y = Math.random() * (window.innerHeight - noBtn.clientHeight - 20);
+  noBtn.style.left = `${x}px`;
+  noBtn.style.top = `${y}px`;
+}
+noBtn.addEventListener("mouseover", moveNoBtn);
+noBtn.addEventListener("click", moveNoBtn);
+noBtn.addEventListener("touchstart", moveNoBtn);
+
+// ฟังก์ชันสร้างหัวใจลอย
+function createHearts(count) {
+  for (let i=0;i<count;i++){
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML="💖";
+    heart.style.left = Math.random()*100+"vw";
+    heart.style.fontSize=(Math.random()*24+16)+"px";
+    heart.style.animationDuration=(Math.random()*3+3)+"s";
+    document.body.appendChild(heart);
+    setTimeout(()=>{heart.remove();},6000);
+  }
+}
+
+// สร้างหัวใจลอยเบา ๆ รอบ ๆ
+setInterval(()=>{
+  const heart=document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerHTML="💖";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.fontSize=(Math.random()*20+10)+"px";
+  heart.style.animationDuration=(Math.random()*4+3)+"s";
+  document.body.appendChild(heart);
+  setTimeout(()=>{heart.remove();},7000);
+},500);
+</script>
+
 </body>
 </html>
